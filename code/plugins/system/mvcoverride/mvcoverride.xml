@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_mvcoverride</name>
+	<author>SharkyKZ</author>
+	<creationDate>2021-10-13</creationDate>
+	<copyright>(C) 2021 SharkyKZ</copyright>
+	<license>GPL-2.0-or-later</license>
+	<version>1.0.0</version>
+	<description>PLG_SYSTEM_MVCOVERRIDE</description>
+	<namespace path="src">SharkyKZ\Joomla\Plugin\System\MvcOverride</namespace>
+	<files>
+		<folder plugin="mvcoverride">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/plg_system_mvcoverride.ini</language>
+		<language tag="en-GB">en-GB/plg_system_mvcoverride.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="overrides"
+					type="subform"
+					multiple="true"
+					label="PLG_SYSTEM_MVCOVERRIDE_CONFIG_CLASSES"
+					>
+					<form>
+						<field
+							name="component"
+							type="text"
+							label="PLG_SYSTEM_MVCOVERRIDE_CONFIG_COMPONENT_LABEL"
+							description="PLG_SYSTEM_MVCOVERRIDE_CONFIG_COMPONENT_DESCRIPTION"
+							required="true"
+						/>
+						<field
+							name="class"
+							type="text"
+							label="PLG_SYSTEM_MVCOVERRIDE_CONFIG_CLASS_LABEL"
+							description="PLG_SYSTEM_MVCOVERRIDE_CONFIG_CLASS_DESCRIPTION"
+							required="true"
+						/>
+						<field
+							name="newClass"
+							type="text"
+							label="PLG_SYSTEM_MVCOVERRIDE_CONFIG_NEW_CLASS_LABEL"
+							description="PLG_SYSTEM_MVCOVERRIDE_CONFIG_NEW_CLASS_DESCRIPTION"
+							required="true"
+						/>
+						<field
+							name="newFile"
+							type="text"
+							label="PLG_SYSTEM_MVCOVERRIDE_CONFIG_NEW_FILE_LABEL"
+							description="PLG_SYSTEM_MVCOVERRIDE_CONFIG_NEW_FILE_DESCRIPTION"
+							validate="FilePath"
+						/>
+					</form>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
