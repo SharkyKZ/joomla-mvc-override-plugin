@@ -18,8 +18,24 @@ use Joomla\CMS\MVC\Factory\MVCFactory as CoreFactory;
  */
 final class MvcFactory extends CoreFactory
 {
+	/**
+	 * Array of class override configurations
+	 *
+	 * @var    array
+	 * @since  1.0.0
+	 */
 	private $overrides = [];
 
+	/**
+	 * Class constructor
+	 *
+	 * @param   string  $namespace  The base namespace
+	 * @param   array   $overrides  Array of class override configurations
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 */
 	public function __construct(string $namespace, array $overrides = [])
 	{
 		$this->overrides = $overrides;
@@ -27,6 +43,16 @@ final class MvcFactory extends CoreFactory
 		parent::__construct($namespace);
 	}
 
+	/**
+	 * Returns a standard classname, if the class doesn't exist null is returned.
+	 *
+	 * @param   string  $suffix  The suffix
+	 * @param   string  $prefix  The prefix
+	 *
+	 * @return  string|null  The class name
+	 *
+	 * @since   1.0.0
+	 */
 	protected function getClassName(string $suffix, string $prefix): ?string
 	{
 		// Build original class name first.
