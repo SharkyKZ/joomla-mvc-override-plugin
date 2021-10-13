@@ -12,7 +12,9 @@ namespace SharkyKZ\Joomla\Plugin\System\MvcOverride;
 use Joomla\CMS\MVC\Factory\MVCFactory as CoreFactory;
 
 /**
- * Custom MVC factory class.
+ * Custom MVC factory class
+ *
+ * @since  1.0.0
  */
 final class MvcFactory extends CoreFactory
 {

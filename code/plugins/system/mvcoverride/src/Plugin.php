@@ -14,6 +14,11 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\EventInterface;
 use Joomla\DI\Container;
 
+/**
+ * MVC override plugin class
+ *
+ * @since  1.0.0
+ */
 final class Plugin extends CMSPlugin
 {
 	/**
@@ -96,7 +101,7 @@ final class Plugin extends CMSPlugin
 	}
 
 	/**
-	 * Gets namespace from MVC factory instance.
+	 * Gets namespace from MVC factory instance
 	 *
 	 * @param   CoreFactory  $factory  MVC factory instance
 	 *

@@ -14,6 +14,11 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use SharkyKZ\Joomla\Plugin\System\MvcOverride\Plugin;
 
+/**
+ * The service provider
+ *
+ * @since  1.0.0
+ */
 return new class implements ServiceProviderInterface
 {
 	/**
