@@ -73,7 +73,14 @@ final class Plugin extends CMSPlugin
 		}
 
 		// Register our custom MVC factory.
-		$container->set($interfaceClass, new MvcFactory($this->getNamespaceFromFactory($currentFactory), $overrides));
+		$namespace = $this->getNamespaceFromFactory($currentFactory);
+
+		if ($namespace === '')
+		{
+			return;
+		}
+
+		$container->set($interfaceClass, new MvcFactory($namespace, $overrides));
 	}
 
 	/**
@@ -111,10 +118,13 @@ final class Plugin extends CMSPlugin
 	 */
 	private function getNamespaceFromFactory(CoreFactory $factory): string
 	{
-		$reflection = new \ReflectionClass($factory);
-		$namespaceProperty = $reflection->getProperty('namespace');
-		$namespaceProperty->setAccessible(true);
+		$closure = function ()
+		{
+			return $this->namespace ?? '';
+		};
 
-		return $namespaceProperty->getValue($factory);
+		$function = $closure->bindTo($factory, $factory);
+
+		return $function();
 	}
 }
