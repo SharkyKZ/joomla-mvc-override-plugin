@@ -5,7 +5,7 @@
  */
 namespace SharkyKZ\Joomla\Plugin\System\MvcOverride;
 
-\defined('_JEXEC') or exit;
+\defined('_JEXEC') || exit;
 
 use Joomla\CMS\MVC\Factory\MVCFactory as CoreFactory;
 

@@ -3,7 +3,7 @@
  * @copyright   (C) 2021 SharkyKZ
  * @license     GPL-2.0-or-later
  */
-defined('_JEXEC') or exit;
+defined('_JEXEC') || exit;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
