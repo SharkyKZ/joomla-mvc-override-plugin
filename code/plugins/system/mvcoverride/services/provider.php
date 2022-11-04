@@ -12,6 +12,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Registry\Registry;
 use SharkyKZ\Joomla\Plugin\System\MvcOverride\Plugin;
 
 /**
@@ -34,13 +35,11 @@ return new class implements ServiceProviderInterface
 	{
 		$container->set(
 			PluginInterface::class,
-			function (Container $container)
+			static function (Container $container)
 			{
-				$dispatcher = $container->get(DispatcherInterface::class);
-
 				return new Plugin(
-					$dispatcher,
-					(array) PluginHelper::getPlugin('system', 'mvcoverride')
+					$container->get(DispatcherInterface::class),
+					new Registry(PluginHelper::getPlugin('system', 'mvcoverride')->params ?? '{}')
 				);
 			}
 		);

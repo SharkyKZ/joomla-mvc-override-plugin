@@ -10,19 +10,81 @@ namespace SharkyKZ\Joomla\Plugin\System\MvcOverride;
 \defined('_JEXEC') or exit;
 
 use Joomla\CMS\MVC\Factory\MVCFactory as CoreFactory;
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Extension\PluginInterface;
 use Joomla\Event\EventInterface;
 use Joomla\DI\Container;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Registry\Registry;
 
 /**
  * MVC override plugin class
  *
  * @since  1.0.0
  */
-final class Plugin extends CMSPlugin
+final class Plugin implements PluginInterface
 {
 	/**
-	 * Plugin event fired after an extension has been booted
+	 * Event dispatcher instance.
+	 *
+	 * @var    DispatcherInterface
+	 * @since  1.0.0
+	 */
+	private $dispatcher;
+
+	/**
+	 * Plugin parameters.
+	 *
+	 * @var    Registry
+	 * @since  1.0.0
+	 */
+	private $params;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param   DispatcherInterface  $dispatcher
+	 * @param   Registry             $params
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 */
+	public function __construct(DispatcherInterface $dispatcher, Registry $params)
+	{
+		$this->dispatcher = $dispatcher;
+		$this->params = $params;
+	}
+
+	/**
+	 * Method to register listeners with the event dispatcher.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 */
+	public function registerListeners(): void
+	{
+		$this->dispatcher->addListener('onAfterExtensionBoot', [$this, 'onAfterExtensionBoot']);
+	}
+
+	/**
+	 * Set the dispatcher to use.
+	 *
+	 * @param   DispatcherInterface  $dispatcher  The dispatcher to use.
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0.0
+	 */
+	public function setDispatcher(DispatcherInterface $dispatcher)
+	{
+		$this->dispatcher = $dispatcher;
+
+		return $this;
+	}
+
+	/**
+	 * Plugin event fired after an extension has been booted.
 	 *
 	 * @param   EventInterface  $event
 	 *
