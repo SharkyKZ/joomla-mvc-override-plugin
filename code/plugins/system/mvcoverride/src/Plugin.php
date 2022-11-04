@@ -3,7 +3,7 @@
  * @copyright   (C) 2021 SharkyKZ
  * @license     GPL-2.0-or-later
  */
-namespace SharkyKZ\Joomla\Plugin\System\MvcOverride;
+namespace Sharky\Joomla\Plugin\System\MvcOverride;
 
 \defined('_JEXEC') || exit;
 

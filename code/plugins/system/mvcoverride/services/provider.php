@@ -11,7 +11,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
-use SharkyKZ\Joomla\Plugin\System\MvcOverride\Plugin;
+use Sharky\Joomla\Plugin\System\MvcOverride\Plugin;
 
 /**
  * The service provider

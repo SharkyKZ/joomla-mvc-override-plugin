@@ -7,7 +7,7 @@
 	<license>GPL-2.0-or-later</license>
 	<version>1.0.0</version>
 	<description>PLG_SYSTEM_MVCOVERRIDE</description>
-	<namespace path="src">SharkyKZ\Joomla\Plugin\System\MvcOverride</namespace>
+	<namespace path="src">Sharky\Joomla\Plugin\System\MvcOverride</namespace>
 	<files>
 		<folder plugin="mvcoverride">services</folder>
 		<folder>src</folder>
