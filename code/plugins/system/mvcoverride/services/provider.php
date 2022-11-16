@@ -37,7 +37,7 @@ return new class implements ServiceProviderInterface
 			{
 				return new Plugin(
 					$container->get(DispatcherInterface::class),
-					new Registry(PluginHelper::getPlugin('system', 'mvcoverride')->params ?? '{}')
+					new Registry(PluginHelper::getPlugin('system', 'mvcoverride')->params ?? null)
 				);
 			}
 		);
