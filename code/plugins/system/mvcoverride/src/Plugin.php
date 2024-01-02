@@ -7,8 +7,10 @@ namespace Sharky\Joomla\Plugin\System\MvcOverride;
 
 \defined('_JEXEC') || exit;
 
+use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\MVC\Factory\MVCFactory as CoreFactory;
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Event\EventInterface;
 use Joomla\DI\Container;
 use Joomla\Event\DispatcherInterface;
@@ -93,7 +95,7 @@ final class Plugin implements PluginInterface
 	public function onAfterExtensionBoot(EventInterface $event): void
 	{
 		// Test that this is a component.
-		if ($event->getArgument('type') !== 'Joomla\\CMS\\Extension\\ComponentInterface')
+		if ($event->getArgument('type') !== ComponentInterface::class)
 		{
 			return;
 		}
@@ -114,20 +116,17 @@ final class Plugin implements PluginInterface
 			return;
 		}
 
-		// Service key to override.
-		$interfaceClass = 'Joomla\\CMS\\MVC\\Factory\\MVCFactoryInterface';
-
-		// Service key not found or can't be overridden.
-		if (!$container->has($interfaceClass) || $container->isProtected($interfaceClass))
+		// MVC factory not found or can't be overridden.
+		if (!$container->has(MVCFactoryInterface::class) || $container->isProtected(MVCFactoryInterface::class))
 		{
 			return;
 		}
 
 		// Get current MVC factory.
-		$currentFactory = $container->get($interfaceClass);
+		$currentFactory = $container->get(MVCFactoryInterface::class);
 
 		// To be safe we only handle default core MVC factory.
-		if (\get_class($currentFactory) !== 'Joomla\\CMS\\MVC\\Factory\\MVCFactory')
+		if (\get_class($currentFactory) !== CoreFactory::class)
 		{
 			return;
 		}
@@ -140,7 +139,7 @@ final class Plugin implements PluginInterface
 			return;
 		}
 
-		$container->set($interfaceClass, new MvcFactory($namespace, $overrides));
+		$container->set(MVCFactoryInterface::class, new MvcFactory($namespace, $overrides));
 	}
 
 	/**
