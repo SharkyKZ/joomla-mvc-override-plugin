@@ -100,18 +100,14 @@ final class Plugin implements PluginInterface
 			return;
 		}
 
-		$overrides = $this->getOverridesForComponent('com_' . $event->getArgument('extensionName'));
-
 		// Test that we have overrides for this component.
-		if (!$overrides)
+		if (!$overrides = $this->getOverridesForComponent('com_' . $event->getArgument('extensionName')))
 		{
 			return;
 		}
 
 		// Get the container.
-		$container = $event->getArgument('container');
-
-		if (!$container instanceof Container)
+		if (!($container = $event->getArgument('container')) instanceof Container)
 		{
 			return;
 		}
@@ -132,9 +128,7 @@ final class Plugin implements PluginInterface
 					return $currentFactory;
 				}
 
-				$namespace = $this->getPropertyFromFactory('namespace', $currentFactory);
-
-				if ($namespace === null)
+				if (($namespace = $this->getPropertyFromFactory('namespace', $currentFactory)) === null)
 				{
 					return $currentFactory;
 				}
