@@ -29,8 +29,10 @@ final class MvcFactory extends CoreFactory
 	/**
 	 * Class constructor
 	 *
-	 * @param   string  $namespace  The base namespace
-	 * @param   array   $overrides  Array of class override configurations
+	 * @param   CoreFactory       $factory    Core MVC factory instance
+	 * @param   string            $namespace  The base namespace
+	 * @param   array             $overrides  Array of class override configurations
+	 * @param   ?LoggerInterface  $logger     Logger instance
 	 *
 	 * @return  void
 	 *
