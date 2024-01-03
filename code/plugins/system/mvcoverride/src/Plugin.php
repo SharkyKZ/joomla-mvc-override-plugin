@@ -111,7 +111,7 @@ final class Plugin implements PluginInterface
 		// Get the container.
 		$container = $event->getArgument('container');
 
-		if (!($container instanceof Container))
+		if (!$container instanceof Container)
 		{
 			return;
 		}
@@ -122,24 +122,31 @@ final class Plugin implements PluginInterface
 			return;
 		}
 
-		// Get current MVC factory.
-		$currentFactory = $container->get(MVCFactoryInterface::class);
+		// Override the service.
+		$container->extend(
+			MVCFactoryInterface::class,
+			function ($currentFactory) use ($overrides)
+			{
+				if (!$currentFactory instanceof CoreFactory)
+				{
+					return $currentFactory;
+				}
 
-		// To be safe we only handle default core MVC factory.
-		if (\get_class($currentFactory) !== CoreFactory::class)
-		{
-			return;
-		}
+				$namespace = $this->getPropertyFromFactory('namespace', $currentFactory);
 
-		// Register our custom MVC factory.
-		$namespace = $this->getNamespaceFromFactory($currentFactory);
+				if ($namespace === null)
+				{
+					return $currentFactory;
+				}
 
-		if ($namespace === '')
-		{
-			return;
-		}
-
-		$container->set(MVCFactoryInterface::class, new MvcFactory($namespace, $overrides));
+				return new MvcFactory(
+					$currentFactory,
+					$overrides,
+					$namespace,
+					$this->getPropertyFromFactory('logger', $currentFactory)
+				);
+			}
+		);
 	}
 
 	/**
@@ -167,23 +174,23 @@ final class Plugin implements PluginInterface
 	}
 
 	/**
-	 * Gets namespace from MVC factory instance
+	 * Gets a private property from MVC factory instance
 	 *
 	 * @param   CoreFactory  $factory  MVC factory instance
 	 *
-	 * @return  string
+	 * @return  mixed
 	 *
 	 * @since  1.0.0
 	 */
-	private function getNamespaceFromFactory(CoreFactory $factory): string
+	private function getPropertyFromFactory(string $property, CoreFactory $factory)
 	{
-		$closure = function ()
+		$closure = function ($property)
 		{
-			return $this->namespace ?? '';
+			return $this->$property ?? null;
 		};
 
 		$function = $closure->bindTo($factory, $factory);
 
-		return $function();
+		return $function($property);
 	}
 }

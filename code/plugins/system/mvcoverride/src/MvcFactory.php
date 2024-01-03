@@ -8,6 +8,8 @@ namespace Sharky\Joomla\Plugin\System\MvcOverride;
 \defined('_JEXEC') || exit;
 
 use Joomla\CMS\MVC\Factory\MVCFactory as CoreFactory;
+use Joomla\Database\Exception\DatabaseNotFoundException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Custom MVC factory class
@@ -34,11 +36,12 @@ final class MvcFactory extends CoreFactory
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct(string $namespace, array $overrides = [])
+	public function __construct(CoreFactory $factory, array $overrides, string $namespace, ?LoggerInterface $logger = null)
 	{
 		$this->overrides = $overrides;
+		$this->acquireDependencies($factory);
 
-		parent::__construct($namespace);
+		parent::__construct($namespace, $logger);
 	}
 
 	/**
@@ -81,5 +84,67 @@ final class MvcFactory extends CoreFactory
 
 		// Class override not found, use original class.
 		return $className;
+	}
+
+	/**
+	 * Injects dependencies from original factory to current factory instance
+	 *
+	 * @param   CoreFactory  $factory  Core MVC factory instance
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 */
+	private function acquireDependencies(CoreFactory $factory): void
+	{
+		try
+		{
+			$this->setFormFactory($factory->getFormFactory());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
+
+		try
+		{
+			$this->setDispatcher($factory->getDispatcher());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
+
+		try
+		{
+			$this->setSiteRouter($factory->getSiteRouter());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
+
+		$this->setCacheControllerFactory($factory->getCacheControllerFactory());
+
+		try
+		{
+			$this->setUserFactory($factory->getUserFactory());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
+
+		try
+		{
+			$this->setMailerFactory($factory->getMailerFactory());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
+
+		try
+		{
+			$this->setDatabase($factory->getDatabase());
+		}
+		catch (DatabaseNotFoundException $e)
+		{
+		}
 	}
 }
