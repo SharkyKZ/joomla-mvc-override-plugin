@@ -123,7 +123,7 @@ final class Plugin implements PluginInterface
 			MVCFactoryInterface::class,
 			function ($currentFactory) use ($overrides)
 			{
-				if (!$currentFactory instanceof CoreFactory)
+				if (\get_class($currentFactory) !== CoreFactory::class)
 				{
 					return $currentFactory;
 				}
